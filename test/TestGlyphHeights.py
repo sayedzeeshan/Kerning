@@ -1,3 +1,7 @@
 #!/usr/bin/env python3
+import pickle
 from kerningmodule.source.CalculateGlyphHeights import CalculateGlyphHeights as CGH
-CGH("C:/Ligatures",10,0)
+import SaveLoadObjects as SLO
+
+LookUp = CGH("C:/Ligatures",10,0)
+SLO.save_obj(LookUp,'GlyphHeightsDictionary')
