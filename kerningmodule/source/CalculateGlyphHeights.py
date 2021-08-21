@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Author: Sayed Zeeshan Asghar
 # Ver 0.1
 # Description: Calculate the top and bottom heights for glyphs for horizontal shifts of dX pixels 
@@ -5,6 +6,7 @@ import os
 import cv2 as cv
 import glob
 import numpy as np
+import matplotlib as plt
 
 nBins = 11
 minHeight = 710
