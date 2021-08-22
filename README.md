@@ -7,7 +7,8 @@ A Tool that provides automatic kerning for ligature based OpenType fonts in Micr
   - OpenCv
   - Matplotlib
   - Glib
-- Glyph setup
+
+Glyph setup
 Glyphs should be contained in a base directory (e.g. C:/Ligatures) having the following sub-directories (in PNG format):
 - *Ligatures_Regular* This directory contains all the multi character glyph e.g. sbb (سبب), slslo (سلسلہ), etc.
 - *Haroof_Regular* This Directory contains all the haroof (alphabets) glyph images in PNG format
