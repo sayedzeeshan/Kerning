@@ -1,5 +1,10 @@
 # Kerning
 A Tool that provides automatic kerning for ligature based OpenType fonts in Microsoft Volt
+
+There are three stages of the algorithm. 
+- The first stage is to process every single glyph image and extract the extents of the strokes in terms of height at several horizontal locations, defined by the variable *dX*
+- The second stage of processing is to detect how much collisions a single glyph has for the complete set of glyphs, for a particular shift of the glyph.
+- The last stage of processing is to form groups of glyphs based on collision data (output of stage 2) and the glyph height data (output of stage 1)
 # Prerequisites
 **Development environment**
 
