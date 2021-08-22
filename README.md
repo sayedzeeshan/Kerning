@@ -2,6 +2,7 @@
 A Tool that provides automatic kerning for ligature based OpenType fonts in Microsoft Volt
 # Prerequisites
 **Development environment**
+
 Latest versions of the following packages are recommended:
  - Python 3
  - NumPy
