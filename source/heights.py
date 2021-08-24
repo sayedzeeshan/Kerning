@@ -6,7 +6,7 @@ import os
 import cv2 as cv
 import glob
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 nBins = 11
 minHeight = 710
@@ -107,12 +107,16 @@ def regular_glyphs(dir,dX):
             a  = np.argwhere(starting[0:H,j] == 0)
             if not a.any():
                 start_h[j] = -1
-                end_h[j] = -1
             else:
                 start_h[j] = a[-1]
-                end_h[j] = a[1]
                 start_h[j] = H - start_h[j]
+            a  = np.argwhere(ending[0:H,j] == 0)
+            if not a.any():
+                end_h[j] = -1
+            else:
+                end_h[j] = a[1]
                 end_h[j] = H - end_h[j]
+
         
         hmax = start_h[0]
         for k in range(1,nbinsTemp):
@@ -195,11 +199,14 @@ def haroof_glyphs(dir,dX):
             a  = np.argwhere(starting[0:H,j] == 0)
             if not a.any():
                 start_h[j] = -1
-                end_h[j] = -1
             else:
                 start_h[j] = a[-1]
-                end_h[j] = a[1]
                 start_h[j] = H - start_h[j]
+            a  = np.argwhere(ending[0:H,j] == 0)
+            if not a.any():
+                end_h[j] = -1
+            else:
+                end_h[j] = a[1]
                 end_h[j] = H - end_h[j]
         
         hmax = start_h[0]
@@ -275,11 +282,14 @@ def symbol_glyphs(dir,dX):
             a  = np.argwhere(starting[0:H,j] == 0)
             if not a.any():
                 start_h[j] = -1
-                end_h[j] = -1
             else:
                 start_h[j] = a[-1]
-                end_h[j] = a[1]
                 start_h[j] = H - start_h[j]
+            a  = np.argwhere(ending[0:H,j] == 0)
+            if not a.any():
+                end_h[j] = -1
+            else:
+                end_h[j] = a[1]
                 end_h[j] = H - end_h[j]
         
         hmax = start_h[0]
@@ -301,4 +311,13 @@ def symbol_glyphs(dir,dX):
 
         LookUp[filename[0:-4]] = extents
     return numGlyphs
-    
+def plot_glyph_data(LookUp,path,glyph):
+    img = cv.imread(path, cv.IMREAD_GRAYSCALE)
+    H, W = img.shape
+    extents = LookUp[glyph]
+    plt.imshow(img)
+    x = np.arange(0,nBins)*shiftX/scaling
+    plt.plot(W-x,H-extents[0:nBins,0],"rd")
+    plt.plot(x,H-extents[0:nBins,1],"gd")
+
+    plt.show()
