@@ -150,8 +150,8 @@ def regular_glyphs(dir,dX):
                 end_h[k] = 0
             else:
                 end_h[k] = int(hmin + (k-nW)*rate)
-        extents[0:nBins,0] = start_h[0::dX]
-        extents[0:nBins,1] = end_h[0::dX]
+        extents[0:nBins,0] = start_h[0::dX]*scaling # x scaling = conversion from pixels to points
+        extents[0:nBins,1] = end_h[0::dX]*scaling
 
         LookUp[filename[0:-4]] = extents
      return numGlyphs
@@ -237,8 +237,8 @@ def haroof_glyphs(dir,dX):
                 end_h[k] = 0
             else:
                 end_h[k] = int(hmin + (k-nW)*rate)
-        extents[0:nBins,0] = start_h[0::dX]
-        extents[0:nBins,1] = end_h[0::dX]
+        extents[0:nBins,0] = start_h[0::dX]*scaling
+        extents[0:nBins,1] = end_h[0::dX]*scaling
 
         LookUp[filename[0:-4]] = extents
     return numGlyphs
@@ -306,8 +306,8 @@ def symbol_glyphs(dir,dX):
             else:
                 hmin = end_h[k]
 
-        extents[0:nBins,0] = start_h[0::dX]
-        extents[0:nBins,1] = end_h[0::dX]
+        extents[0:nBins,0] = start_h[0::dX]*scaling
+        extents[0:nBins,1] = end_h[0::dX]*scaling
 
         LookUp[filename[0:-4]] = extents
     return numGlyphs
@@ -317,7 +317,7 @@ def plot_glyph_data(LookUp,path,glyph):
     extents = LookUp[glyph]
     plt.imshow(img)
     x = np.arange(0,nBins)*shiftX/scaling
-    plt.plot(W-x,H-extents[0:nBins,0],"rd")
-    plt.plot(x,H-extents[0:nBins,1],"gd")
+    plt.plot(W-x,H-extents[0:nBins,0]/scaling,"rd")
+    plt.plot(x,H-extents[0:nBins,1]/scaling,"gd")
 
     plt.show()
