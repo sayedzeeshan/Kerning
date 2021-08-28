@@ -9,7 +9,7 @@ There are three stages of the algorithm.
 **Development environment**
 
 Latest versions of the following packages are recommended:
- - Python 3
+ - Python 3.6 or higher
  - NumPy
  - OpenCv
  - Matplotlib

@@ -50,7 +50,7 @@ def calc_glyph_heights(baseDir,dX,enableKasheeda):
     print("Number of glyphs processed: " + str(numGlyphs))
     numGlyphs += symbol_glyphs(symbolDir,dX)
     print("Number of glyphs processed: " + str(numGlyphs))
-    if enableKasheeda:
+    if enableKasheeda == 1:
         numGlyphs += regular_glyphs(kasheedaDir,dX)
         print("Number of  glyphs processed: " + str(numGlyphs))
         # regular Haroof processing
@@ -59,9 +59,6 @@ def calc_glyph_heights(baseDir,dX,enableKasheeda):
 
     print("All glyphs processed successfully")
     return LookUp
-
-def remove_numbers(name):
-    print("to be implemented")
 
 def regular_glyphs(dir,dX):
      numGlyphs = 0
@@ -146,8 +143,8 @@ def regular_glyphs(dir,dX):
 
         hmin = end_h[nW-1]
         for k in range(nW,nbinsTemp):
-            if(hmin - (k-nW)*rate > H):
-                end_h[k] = 0
+            if(hmin + (k-nW)*rate > H):
+                end_h[k] = H
             else:
                 end_h[k] = int(hmin + (k-nW)*rate)
         extents[0:nBins,0] = start_h[0::dX]*scaling # x scaling = conversion from pixels to points
@@ -233,8 +230,8 @@ def haroof_glyphs(dir,dX):
 
         hmin = end_h[nW-1]
         for k in range(nW,nbinsTemp):
-            if(hmin - (k-nW)*rate > H):
-                end_h[k] = 0
+            if(hmin + (k-nW)*rate > H):
+                end_h[k] = H
             else:
                 end_h[k] = int(hmin + (k-nW)*rate)
         extents[0:nBins,0] = start_h[0::dX]*scaling
