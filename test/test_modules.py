@@ -9,7 +9,7 @@ def haroof_test():
     numGlyphs = cgh.haroof_glyphs("C:/Ligatures/Haroof_Regular/",10)
     assert numGlyphs == 46
 def all_glyphs_test():
-    LookUp = cgh.calc_glyph_heights("C:/Ligatures",10,0)
+    LookUp = cgh.calc_glyph_heights("C:/Ligaturess",10,0)
     slo.save_obj(LookUp,'GlyphHeightsDictionary')
 def plot_test():
     LookUp = slo.load_obj('GlyphHeightsDictionary')

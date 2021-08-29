@@ -1,9 +1,9 @@
-#create left and right tables based on collision of glyphs for certain
+#create left and right Lists based on collision of glyphs for certain
 #right-shift of left glyph
 import numpy as np
 nBins = 11
-HC = 50 #Height cushion 
-def collide_glyphs(LookUp,Keys):
+HC = 50 #Height cushion to make sure the glyphs have some room to fit over each other
+def collide_glyphs(LookUp):
     nRows = len(LookUp)
     LeftTable = np.zeros(shape=(nRows,nBins+1),dtype=int)
     RightTable = np.zeros(shape=(nRows,nBins+1),dtype=int)

@@ -12,23 +12,26 @@ nBins = 11
 minHeight = 710
 maxHeight = 780
 shiftX = 200
-scaling = 4.9 #2048em font assumption 
-DESC_RATE = 0.2
-ASC_RATE_1 = 4.0
-ASC_RATE_2 = 8.0
-HAROOF_BOTTOM_DEFAULT = 300
-HAROOF_TOP_DEFAULT = 370
-HAROOF_TOP_EXCEPTION = 440
-SHORT_GLYPH_BOUNDARY = 61
+scaling = 4.9 #2048 units per em font assumption, images are 300 dpi
+DESC_RATE = 0.2 # per x-unit rate at which the bottom heigh descends where there is glyph data (extrapolation)
+ASC_RATE_1 = 4.0 # Ascent rate for small glyphs that are smaller that shiftX*11 units
+ASC_RATE_2 = 8.0 # Ascent rate for very small glyphs. these glyphs should
+# be prevented to kern too much as the glyphs behind them can collide with 
+# the glyphs at the front
+HAROOF_BOTTOM_DEFAULT = 300 #default height at bottom for haroof for the purpose of extrapolation
+HAROOF_TOP_DEFAULT = 370 #top dfault height for haroof
+HAROOF_TOP_EXCEPTION = 440 #exception default height
+SHORT_GLYPH_BOUNDARY = 61 #boundary for definition of short glyphs
 ASC_RATE_EXCEPTION = 4
 ASC_RATE_HAROOF = 7
 ASC_RATE_DEFAULT_HAROOF = 4
-SYMBOL_TOP_DEFAULT = 460
+SYMBOL_TOP_DEFAULT = 460 #top default height for symbols,
+# it controls how much the symbols will kern outside symbol boundary
 SYMBOL_BOTTOM_DEFAULT = 100
-NUM_PIXEL_SCAN = 9
-dXValid = [10,20,40,50,100]
+NUM_PIXEL_SCAN = 9 #number of horizontal pixels to scan 
+dXValid = [10,20,40,50,100] #valid values for dX
 LookUp = {} #instantiate an empty dictionary
-haroofExceptions = ["alef.png","alefwah"]
+haroofExceptions = ["alef.png","alefwah"] #define exception haroof here, these will have differnt default extrpolation height
 animation = "|/-\\"
 
 def calc_glyph_heights(baseDir,dX,enableKasheeda):
@@ -53,11 +56,13 @@ def calc_glyph_heights(baseDir,dX,enableKasheeda):
     if enableKasheeda == 1:
         numGlyphs += regular_glyphs(kasheedaDir,dX)
         print("Number of  glyphs processed: " + str(numGlyphs))
-        # regular Haroof processing
+        # kasheeda Haroof processing
         numGlyphs += haroof_glyphs(kasheedaHaroofDir,dX)
         print("Number of glyphs processed: " + str(numGlyphs))
-
-    print("All glyphs processed successfully")
+    if numGlyphs == 0:
+        print("Zero glyphs processed. Please check if the images are placed in correct directories.\n")
+    else:
+        print("All glyphs processed successfully")
     return LookUp
 
 def regular_glyphs(dir,dX):
@@ -65,14 +70,16 @@ def regular_glyphs(dir,dX):
      idx = 0
      for filepath in glob.iglob(dir + '**/*.png', recursive=True):
         filename = os.path.basename(filepath)
-        #print(filename)
-        #print('.', end='', flush=True)
         if numGlyphs%10 == 0:
             print(animation[idx % len(animation)], end="\r")
             idx += 1
         if numGlyphs%100 == 0:
             print("%d glyphs processed \n",numGlyphs)
         im = cv.imread(filepath, cv.IMREAD_GRAYSCALE)
+        if im is None:
+            print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")
+            return 0
+            
         H, W = im.shape
         if H < minHeight or H > maxHeight:
             print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")
@@ -90,8 +97,8 @@ def regular_glyphs(dir,dX):
         if nW > nbinsTemp:
             nW = nbinsTemp
        
-        starting = np.ones((H,nW),dtype=np.int8) #bottom
-        ending = np.ones((H,nW),dtype=np.int8) #top 
+        starting = np.ones((H,nW),dtype=np.int8) #bottom height of the glyph strokes 
+        ending = np.ones((H,nW),dtype=np.int8) #top height of the glyph strokes
         start_h = np.zeros((nbinsTemp,),dtype=int)
         end_h = np.fix(H*0.5)*np.ones((nbinsTemp,),dtype=int)
         extents = np.zeros((nBins,2),dtype=int)
@@ -158,11 +165,12 @@ def haroof_glyphs(dir,dX):
     for filepath in glob.iglob(dir + '**/*.png', recursive=True):
         exceptionFlag = 0
         filename = os.path.basename(filepath)
-        #print(filename)
-        #print('.', end='', flush=True)
         print(animation[numGlyphs % len(animation)], end="\r")
 
         im = cv.imread(filepath, cv.IMREAD_GRAYSCALE)
+        if im is None:
+            print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")
+            return 0
         H, W = im.shape
         if H < minHeight or H > maxHeight:
             print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")
@@ -244,11 +252,12 @@ def symbol_glyphs(dir,dX):
     numGlyphs = 0
     for filepath in glob.iglob(dir + '**/*.png', recursive=True):
         filename = os.path.basename(filepath)
-        #print(filename)
-        #print('.', end='', flush=True)
         print(animation[numGlyphs % len(animation)], end="\r")
 
         im = cv.imread(filepath, cv.IMREAD_GRAYSCALE)
+        if im is None:
+            print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")
+            return 0
         H, W = im.shape
         if H < minHeight or H > maxHeight:
             print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")

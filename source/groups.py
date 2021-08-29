@@ -4,55 +4,55 @@ import os
 nCols = 10
 nRows = 10
 
-shifts = [150, 175, 175, 175, 175, 200, 200, 200, 200, 200]
+shifts = [100, 100, 175, 175, 175, 200, 200, 200, 200, 200]
 left_threshold = [100, 100, 100, 100, 100, 100, 50, 50, 50, 100]
 right_threshold = [200, 200, 200, 200, 200, 200, 200, 200, 150, 100]
 HeighAdjustment = [0,-200,-100,-100,-50,-20,-20,0,0,-50]; # should always be non-positive
-weights = [0.6,0.25,0.15] #must sum up to 1.0
-def form_groups_from_tables(Keys,Lookup,LeftTable,RightTable,LeftList,RightList):
+weights = [0.8,0.15,0.05] #must sum up to 1.0
+def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList,RCollisionList):
     lu_len = len(Lookup)
     #exception handling
 
     #table sorting
-    LeftTable =  LeftTable[LeftTable[:,0].argsort(),]
-    RightTable =  RightTable[RightTable[:,0].argsort(),]
+    LHeightsData =  LHeightsData[LHeightsData[:,0].argsort(),]
+    RHeightsData =  RHeightsData[RHeightsData[:,0].argsort(),]
 
     #thresholding operation to prune collisions results
     for j in range(0,nCols):
         for i in range(0,lu_len):
-            if(RightList[i,j] > right_threshold[j]):
-                RightList[i,j] = 1
+            if(RCollisionList[i,j] > right_threshold[j]):
+                RCollisionList[i,j] = 1
             else:
-                RightList[i,j] = 0
-            if(LeftList[i,j] > left_threshold[j]):
-                LeftList[i,j] = 1
+                RCollisionList[i,j] = 0
+            if(LCollisionList[i,j] > left_threshold[j]):
+                LCollisionList[i,j] = 1
             else:
-                LeftList[i,j] = 0
+                LCollisionList[i,j] = 0
     # cleaning up thresholded data
     for j in range(nCols-1,0,-1):
         for i in range(0,lu_len):
-            if RightList[i,j] == 1:
+            if RCollisionList[i,j] == 1:
                 count = 0
                 for k in range(0,j):
-                    if RightList[i,k] == 1:
+                    if RCollisionList[i,k] == 1:
                         count = count + 1
-                if(count/j > 0.9):
+                if(float(count/float(j)) > 0.9):
                     for k in range(0,j):
-                        RightList[i,k] = 1
+                        RCollisionList[i,k] = 1
                 else:
-                    RightList[i,j] = 0
+                    RCollisionList[i,j] = 0
     for j in range(nCols-1,0,-1):
         for i in range(0,lu_len):
-            if LeftList[i,j] == 1:
+            if LCollisionList[i,j] == 1:
                 count = 0
                 for k in range(0,j):
-                    if LeftList[i,k] == 1:
+                    if LCollisionList[i,k] == 1:
                         count = count + 1
-                if(count/j > 0.9):
+                if(float(count/float(j))> 0.9):
                     for k in range(0,j):
-                        LeftList[i,k] = 1
+                        LCollisionList[i,k] = 1
                 else:
-                    LeftList[i,j] = 0
+                    LCollisionList[i,j] = 0
 
     RTable = {}
     LTable = {}
@@ -60,12 +60,12 @@ def form_groups_from_tables(Keys,Lookup,LeftTable,RightTable,LeftList,RightList)
     for j in range(0,nCols):
         RTable[j] = []
         for i in range(0,lu_len):
-            if RightList[i,j] == 1:
+            if RCollisionList[i,j] == 1:
                 RTable[j].append(i)
     for j in range(0,nCols):
         LTable[j] = []
         for i in range(0,lu_len):
-            if LeftList[i,j] == 1:
+            if LCollisionList[i,j] == 1:
                 LTable[j].append(i)
 
     LMaster = {}
@@ -76,7 +76,7 @@ def form_groups_from_tables(Keys,Lookup,LeftTable,RightTable,LeftList,RightList)
         TLst = np.zeros(shape=(L0,2),dtype=int)
         for i in range(0,L0):
             TLst[i,0] = LTable[j][i]
-            TLst[i,1] = LeftTable[LTable[j][i],j+2]
+            TLst[i,1] = LHeightsData[LTable[j][i],j+1]
         LMaster[j]=np.flipud(TLst[TLst[:,1].argsort(),])
 
     #right master table formation
@@ -85,10 +85,10 @@ def form_groups_from_tables(Keys,Lookup,LeftTable,RightTable,LeftList,RightList)
         TLst = np.zeros(shape=(L0,3),dtype=int)
         for i in range(0,L0):
             TLst[i,0] = RTable[j][i]
-            TLst[i,1] = RightTable[RTable[j][i],j+2]*weights[0] + \
-            RightTable[RTable[j][i],3]*weights[1] + \
-            RightTable[RTable[j][i],4]*weights[2]
-            TLst[i,2] = RightTable[RTable[j][i],j+2]
+            TLst[i,1] = RHeightsData[RTable[j][i],j+1]*weights[0] + \
+            RHeightsData[RTable[j][i],3]*weights[1] + \
+            RHeightsData[RTable[j][i],4]*weights[2]
+            TLst[i,2] = RHeightsData[RTable[j][i],j+2]
         RMaster[j]=np.flipud(TLst[TLst[:,1].argsort(),])
 
     cushion = np.zeros(shape=(10,1),dtype=int)
