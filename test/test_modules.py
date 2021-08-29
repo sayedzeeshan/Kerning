@@ -35,6 +35,21 @@ def test_groups():
     Keys = list(LookUp.keys())
 
     gp.form_groups_from_tables(Keys,LookUp,LeftTable,RightTable,LeftList,RightList)
+def test_groups_exceptions():
+    gp.add_exception("r",[4000,4000,4000,1500,1800,2000,2500,4000,4000,4000],\
+    [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550])
+    # gp.add_exception("alef",[4000,4000,4000,1000,1600,4000,2200,2400,4000,4000],\
+    # [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550])
+
+    LeftTable = slo.load_obj('LeftTable')
+    RightTable =slo.load_obj('RightTable')
+    LeftList=slo.load_obj('LeftList')
+    RightList= slo.load_obj('RightList')
+    LookUp = slo.load_obj('GlyphHeightsDictionary')
+    Keys = list(LookUp.keys())
+
+    gp.form_groups_from_tables(Keys,LookUp,LeftTable,RightTable,LeftList,RightList)
+
 
 
 

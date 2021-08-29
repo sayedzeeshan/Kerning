@@ -321,9 +321,13 @@ def plot_glyph_data(LookUp,path,glyph):
     img = cv.imread(path, cv.IMREAD_GRAYSCALE)
     H, W = img.shape
     extents = LookUp[glyph]
-    plt.imshow(img)
-    x = np.arange(0,nBins)*shiftX/scaling
-    plt.plot(W-x,H-extents[0:nBins,0]/scaling,"rd")
-    plt.plot(x,H-extents[0:nBins,1]/scaling,"gd")
+    xdiv = list(range(0,W))
+    xdiv_sc = [int(np.floor(i * scaling)) for i in xdiv]
+    ydiv = list(range(0,H))
+    ydiv_sc = [int(np.floor(i * scaling)) for i in ydiv]
+    plt.imshow(img,extent=[0, W*scaling, 0, H*scaling])
+    x = np.arange(0,nBins)*shiftX
+    plt.plot(W*scaling-x,extents[0:nBins,0],"rd")
+    plt.plot(x,extents[0:nBins,1],"gd")
 
     plt.show()

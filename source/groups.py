@@ -9,13 +9,29 @@ left_threshold = [100, 100, 100, 100, 100, 100, 50, 50, 50, 100]
 right_threshold = [200, 200, 200, 200, 200, 200, 200, 200, 150, 100]
 HeighAdjustment = [0,-200,-100,-100,-50,-20,-20,0,0,-50]; # should always be non-positive
 weights = [0.8,0.15,0.05] #must sum up to 1.0
+exceptions = {} #needs to be populated first before calling form_groups_from_tables function
 def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList,RCollisionList):
     lu_len = len(Lookup)
-    #exception handling
-
     #table sorting
     LHeightsData =  LHeightsData[LHeightsData[:,0].argsort(),]
     RHeightsData =  RHeightsData[RHeightsData[:,0].argsort(),]
+
+    #exception handling
+    if len(exceptions) > 0:
+        for key, value in exceptions.items():
+            for i in range(0,lu_len):
+                l = len(key)
+                strippedKey = remove_numbers(Keys[i])
+                if strippedKey[-l:] == key:
+                    f = 0
+                    for j in range(0,nCols):
+                        if RHeightsData[i,j+1] > value[0][j]:
+                            f = 1
+                            break
+                    if f == 0:
+                        for j in range(0,nCols):
+                            RHeightsData[i,j] += value[1][j]
+                        print("Exception profile applied to %s"%(strippedKey,))        
 
     #thresholding operation to prune collisions results
     for j in range(0,nCols):
@@ -198,7 +214,18 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
 
     print("ok")
     #thresholding
-
+# remove numbers from glyphs (artifact of windows not differntiating caps and small letter filr names)
 def remove_numbers(name):
     return name.replace("_1","").replace("_2","") \
     .replace("_3","").replace("_4","").replace("_5","")
+# exceptions could be words ending in some letter and the profile defines the upper boundary to search for these glyph
+#adjustments will be applied to the height profile of these glyphs. 
+def add_exception(pattern,profile,adjustment):
+    if pattern:
+        Cp = len(profile)
+        Ca = len(adjustment)
+        if Cp == nCols and Ca == nCols:
+            exceptions[pattern] = [profile, adjustment]
+            print("successfully added exception")
+        else:
+            print("wrong data format for exceptions. expecting a string and two integer lists")
