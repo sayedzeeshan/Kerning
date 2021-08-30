@@ -17,13 +17,14 @@ LookUp is automatically saved in obj/ folder after the stage processing finishes
   Following are some examples of the output:
   ![Reh glyph](data/reh.png)
   ![or glyph](data/or_heights.png)
-  ![flvin glyph](data/flsvin.png)
+  ![flsvin glyph](data\flsvin.PNG)
 Red dots depict the bottom height of the glyph at a shift of 200 points. 
 The green dots depict the same but from the top. 
 The idea to check if any two glyphs would fit over each other for X amount of shift? Once the red dots from the left glyph can fit on top of the green dots of the right glyph, the kerning is possibble.
-Example: In the following example the two glyphs show can kern by 600 (3*200) points. 
+Example: In the following example the two glyphs show can kern by 600 (3*200) units. 
 ![](data/collidepng.png)
-- The second stage of processing is to detect how much collisions a single glyph has for the complete set of glyphs, for a particular shift of the glyph.
+- The second stage of processing is meant to calculate, for each 200 uints of horizontal shift how much glyphs will fit on top of it without collision. This data is stord is right collision list. Another scenario is caculate how many glyphs can this particular glyph fit on top of, for each shift of 200 uints. 
+This part is most intensive calculation wise as it has O(N^2) complexity. 
 - The last stage of processing is to form groups of glyphs based on collision data (output of stage 2) and the glyph height data (output of stage 1) in order to generate volt files (that can be used to implement kerning in OpenType fonts.)
 # Prerequisites
 **Development environment**
