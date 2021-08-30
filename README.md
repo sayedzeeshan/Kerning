@@ -17,7 +17,7 @@ LookUp is automatically saved in obj/ folder after the stage processing finishes
   Following are some examples of the output:
   ![Reh glyph](data/reh.png)
   ![or glyph](data/or_heights.png)
-  ![flsvin glyph](data\flsvin.PNG)
+  ![flsvin glyph](data/flsvin.png)
 Red dots depict the bottom height of the glyph at a shift of 200 points. 
 The green dots depict the same but from the top. 
 The idea to check if any two glyphs would fit over each other for X amount of shift? Once the red dots from the left glyph can fit on top of the green dots of the right glyph, the kerning is possibble.
