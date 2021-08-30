@@ -1,0 +1,24 @@
+1. Install latest version of Python from the following link: https://www.python.org/downloads/
+Got to customsetup and select PIP install from options as well as add python path to environment variables. This is required. See attached images for details.  
+2. Create a folder to store glyphs/ligatures in C: or D: drive e.g. D:/Ligatures
+3. Create the following folder structure and copy the glyph images to appropriate folder:
+D:
+  |_
+    Ligatures
+             |_
+               Ligatures_Regular
+             |_
+               Haroof_Regular
+	     |_
+               Symbols
+	     |_
+               Ligatures_Kashida
+             |_
+               Haroof_Kashida
+The last two folders are only required if you want to compile a Kashida font
+Note that the names of the sub folders (Ligatures_Regular, etc.) have to be exactly the same as in this document.
+4. Now run setup.bat and see if the module ligature_kerning is installed successfully. 
+5. Open the settings.txt file in source/ folder and update the file according to your requirements. Details are provided at: https://github.com/sayedzeeshan/Kerning
+6. Now run generate_VOLT_ouput.bat file and wait for the processing to complete (might take a few minutes to a few hours depending on the number of glyphs)
+7. The outputs are copied to the base_dir (D:/Ligatures) in our example. 
+8. You can change settings.txt again if the results are not satisfactory and run stage3.bat to get quick result (a few seconds). This is possible as the results of stage 1 and 2 are already stored on obj/ directory and need not be calculated for each iteration. 
