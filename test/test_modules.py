@@ -1,7 +1,9 @@
 import source.heights as cgh
 import source.collisions as col
-import save_load_obj as slo
+import source.save_load_obj as slo
 import source.groups as gp
+import source.parser as ps
+import source.ligature_kerning as lk
 import time
 
 
@@ -13,7 +15,7 @@ def all_glyphs_test():
     slo.save_obj(LookUp,'GlyphHeightsDictionary')
 def plot_test():
     LookUp = slo.load_obj('GlyphHeightsDictionary')
-    cgh.plot_glyph_data(LookUp,"C:/Ligatures/Ligatures_Regular/or_1.png","or_1")
+    cgh.plot_glyph_data(LookUp,"C:/Ligatures/Ligatures_Regular/flsvin.png","flsvin")
     cgh.plot_glyph_data(LookUp,"C:/Ligatures/Haroof_Regular/reh.png","reh")
 def test_collisions():
     start_time = time.time()
@@ -49,6 +51,17 @@ def test_groups_exceptions():
     Keys = list(LookUp.keys())
 
     gp.form_groups_from_tables(Keys,LookUp,LeftTable,RightTable,LeftList,RightList)
+def test_parse():
+    ps.parse_settings_file("settings.txt")
+def test_stage_1():
+    lk.process_stage_1()
+def test_stage_2():
+    lk.process_stage_2()
+def test_stage_3():
+    lk.process_stage_3()
+def test_stage_complete():
+    lk.generate_volt_outputs()
+
 
 
 

@@ -8,6 +8,7 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
+BASE_DIR = "C:/Ligatures"
 nBins = 11
 minHeight = 710
 maxHeight = 780
@@ -33,6 +34,8 @@ dXValid = [10,20,40,50,100] #valid values for dX
 LookUp = {} #instantiate an empty dictionary
 haroofExceptions = ["alef.png","alefwah"] #define exception haroof here, these will have differnt default extrpolation height
 animation = "|/-\\"
+def set_base_dir(loc):
+    BASE_DIR = loc
 
 def calc_glyph_heights(baseDir,dX,enableKasheeda):
     if dX not in dXValid:
@@ -74,7 +77,7 @@ def regular_glyphs(dir,dX):
             print(animation[idx % len(animation)], end="\r")
             idx += 1
         if numGlyphs%100 == 0:
-            print("%d glyphs processed \n",numGlyphs)
+            print("%d glyphs processed \n"%numGlyphs)
         im = cv.imread(filepath, cv.IMREAD_GRAYSCALE)
         if im is None:
             print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")

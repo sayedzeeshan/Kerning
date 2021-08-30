@@ -1,3 +1,5 @@
 launch.json
 test/test_bench.py
 test/obj/*
+setup.py
+release

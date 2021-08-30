@@ -2,7 +2,27 @@
 A Tool that provides automatic kerning for ligature based OpenType fonts in Microsoft Volt
 
 There are three stages of the algorithm. 
-- The first stage is to process every single glyph image and extract the extents of the strokes in terms of height at several horizontal locations, defined by the variable *dX*
+- The first stage is to process every single glyph image and extract the extents of the strokes in terms of height at several horizontal locations. The output can be plotted by *plot_glyph_data* in module *heights*
+ ``` python
+import source.heights as ht
+ht.plot_glyph_data(LookUp,"path/to/glyph.png","glyph")
+```
+LookUp is a dictionary that is output of the stage 1 processing:
+``` python
+import source.ligature_kerning as lk
+lk.process_stage_1()
+```
+LookUp is automatically saved in obj/ folder after the stage processing finishes. 
+- 
+  Following are some examples of the output:
+  ![Reh glyph](data/reh.png)
+  ![or glyph](data/or_heights.png)
+  ![flvin glyph](data/flsvin.png)
+Red dots depict the bottom height of the glyph at a shift of 200 points. 
+The green dots depict the same but from the top. 
+The idea to check if any two glyphs would fit over each other for X amount of shift? Once the red dots from the left glyph can fit on top of the green dots of the right glyph, the kerning is possibble.
+Example: In the following example the two glyphs show can kern by 600 (3*200) points. 
+![](data/collidepng.png)
 - The second stage of processing is to detect how much collisions a single glyph has for the complete set of glyphs, for a particular shift of the glyph.
 - The last stage of processing is to form groups of glyphs based on collision data (output of stage 2) and the glyph height data (output of stage 1) in order to generate volt files (that can be used to implement kerning in OpenType fonts.)
 # Prerequisites
@@ -13,8 +33,7 @@ Latest versions of the following packages are recommended:
  - NumPy
  - OpenCv
  - Matplotlib
- - Glib
-
+ 
 **Glyph setup**
 
 Ligatures/Glyphs should be contained in a base directory (e.g. C:/Ligatures) having the following sub-directories (in PNG format):

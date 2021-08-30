@@ -1,0 +1,11 @@
+GLYPH_DIR_LOC C:/Ligatures #path to ligature directory
+FONT_TYPE REGULAR #options: KASHEEDA REGULAR 
+HORIZONTAL_SHIFTS [100, 100,175,175,175,200,200,200,200,200] # amount of shifts in units for each horizontal bin
+LEFT_COLLISION_THRESHOLDS [100,100,100,100,100,100,50,50,50,100] # lower thresholds can lead to collisons but better kerning
+RIGHT_COLLISION_THRESHOLDS [200,200,200,200,200,200,200,200,150,100]
+EXCEPTION_STRING r # could be ending string or complete glyph name e.g. specifing r will apply to sr, mr, ssr, etc. while specifying alef will only target glyph named alef
+EXCEPTION_PROFILE [4000,4000,4000,1500,1800,2000,2500,4000,4000,4000] #define a height profile at different shift values, at twhich the glyph specified by search string (above) will have to be shorter
+EXCEPTION_ADJUSTMENT [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550] #once a glyph(s) match the EXCEPTION_STRING and EXCEPTION_PROFILE criterion this adjustment will be applied to height of the glyph. The values should be negative to apply more kerning and posistive if you want to apply less kerning than default. 
+EXCEPTION_STRING alef # could be ending string or complete glyph name e.g. specifing r will apply to sr, mr, ssr, etc. while specifying alef will only target glyph named alef
+EXCEPTION_PROFILE [4000,4000,4000,1500,1800,2000,2500,4000,4000,4000] #define a height profile at different shift values, at twhich the glyph specified by search string (above) will have to be shorter
+EXCEPTION_ADJUSTMENT [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550] #once a glyph(s) match the EXCEPTION_STRING and EXCEPTION_PROFILE criterion this adjustment will be applied to height of the glyph. The values should be negative to apply more kerning and posistive if you want to apply less kerning than default. 

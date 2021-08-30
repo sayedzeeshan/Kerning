@@ -38,7 +38,7 @@ def collide_glyphs(LookUp):
                         LeftList[LeftTable[i,0],k] += 1
                         RightList[pot[j,0],k] += 1
         if(i%200 == 1):
-            print(" %d glyphs processed (collisions) \n",i)
+            print(" %d glyphs processed (collisions) \n"%i)
 
 
     return LeftTable, RightTable, LeftList, RightList

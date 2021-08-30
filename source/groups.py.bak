@@ -109,8 +109,7 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
 
     cushion = np.zeros(shape=(10,1),dtype=int)
     for j in range(0,nCols):
-        if RMaster[j][:,1].any():
-            cushion[j] =  np.mean(RMaster[j][:,1] - np.mean(RMaster[j][:,2]))
+        cushion[j] =  np.mean(RMaster[j][:,1] - np.mean(RMaster[j][:,2]))
 
     #height thresholds to form vertical groups
     thresh = np.zeros(shape=(nRows,nCols),dtype=int)
