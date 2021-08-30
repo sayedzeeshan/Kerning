@@ -3,7 +3,7 @@ A Tool that provides automatic kerning for ligature based OpenType fonts in Micr
 
 There are three stages of the algorithm. 
 - The first stage is to process every single glyph image and extract the extents of the strokes in terms of height at several horizontal locations. The output can be plotted by *plot_glyph_data* in module *heights*
-- 
+
  ``` python
 import source.heights as ht
 ht.plot_glyph_data(LookUp,"path/to/glyph.png","glyph")
