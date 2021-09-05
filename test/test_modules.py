@@ -8,7 +8,7 @@ import time
 
 
 def haroof_test():
-    numGlyphs = cgh.haroof_glyphs("C:/Ligatures/Haroof_Regular/",10)
+    numGlyphs = cgh.haroof_glyphs("C:/Ligatures_JNN/Haroof_Regular/",10,770)
     assert numGlyphs == 46
 def all_glyphs_test():
     LookUp = cgh.calc_glyph_heights("C:/Ligaturess",10,0)

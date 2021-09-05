@@ -2,11 +2,11 @@
 # edit this files for directory and kerning control
 #any test after # is ignored
 
-GLYPH_DIR_LOC D:/Ligatures #path to ligature directory
+GLYPH_DIR_LOC C:/TestKerning #path to ligature directory
 
-FONT_TYPE REGULAR #options: KASHEEDA REGULAR 
+FONT_TYPE KASHEEDA #options: KASHEEDA REGULAR 
 
-HORIZONTAL_SHIFTS [100, 100,175,175,175,200,200,200,200,200] # amount of shifts in units for each horizontal bin
+HORIZONTAL_SHIFTS [12, 200,200,200,200,200,200,200,200,200] # amount of shifts in units for each horizontal bin
 
 LEFT_COLLISION_THRESHOLDS [100,100,100,100,100,100,50,50,50,100] # lower thresholds can 
 								 #lead to collisons but better kerning

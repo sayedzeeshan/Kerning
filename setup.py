@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
   name = 'ligature_kerning',
   packages = find_packages(),
-  version = '0.0.1',
+  version = '0.0.3',
   license='MIT',
   description = 'Nasteeq ligatures kerning for OpenType (TruType) Fonts',
   author = 'Sayed Zeeshan Asghar',
@@ -22,7 +22,7 @@ setup(
     'opencv-python >= 4.5.2.0'
   ],
   classifiers=[
-    'Development Status :: 1 - Beta',
+    'Development Status :: 3 - Beta',
     'Intended Audience :: Users',
     'Topic :: Fonts :: Kerning',
     'License :: MIT License',

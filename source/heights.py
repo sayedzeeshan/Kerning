@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 BASE_DIR = "C:/Ligatures"
 nBins = 11
-minHeight = 710
-maxHeight = 780
+minHeight = 417
+maxHeight = 1400
 shiftX = 200
 scaling = 4.9 #2048 units per em font assumption, images are 300 dpi
 DESC_RATE = 0.2 # per x-unit rate at which the bottom heigh descends where there is glyph data (extrapolation)
@@ -32,6 +32,7 @@ SYMBOL_BOTTOM_DEFAULT = 100
 NUM_PIXEL_SCAN = 9 #number of horizontal pixels to scan 
 dXValid = [10,20,40,50,100] #valid values for dX
 LookUp = {} #instantiate an empty dictionary
+GlyphHeight = []
 haroofExceptions = ["alef.png","alefwah"] #define exception haroof here, these will have differnt default extrpolation height
 animation = "|/-\\"
 def set_base_dir(loc):
@@ -49,26 +50,47 @@ def calc_glyph_heights(baseDir,dX,enableKasheeda):
     symbolDir = baseDir+"/Symbols/"
     kasheedaDir = baseDir+"/Ligatures_Kashida/"
     kasheedaHaroofDir = baseDir+"/Haroof_Kashida/"
-    numGlyphs += regular_glyphs(ligatureDir,dX)
-    print("Number of  glyphs processed: " + str(numGlyphs))
-    # regular Haroof processing
-    numGlyphs += haroof_glyphs(haroofDir,dX)
-    print("Number of glyphs processed: " + str(numGlyphs))
-    numGlyphs += symbol_glyphs(symbolDir,dX)
-    print("Number of glyphs processed: " + str(numGlyphs))
-    if enableKasheeda == 1:
-        numGlyphs += regular_glyphs(kasheedaDir,dX)
+    numGlyphs = regular_glyphs(ligatureDir,dX,GlyphHeight)
+    if numGlyphs == 0:
+        print("Please check the input folder. Exiting now ")
+        return 0
+    else:
         print("Number of  glyphs processed: " + str(numGlyphs))
+    # regular Haroof processing
+    numGlyphs = haroof_glyphs(haroofDir,dX,GlyphHeight)
+    if numGlyphs == 0:
+        print("Please check the input folder. Exiting now ")
+        return 0
+    else:
+        print("Number of  glyphs processed: " + str(numGlyphs))
+    numGlyphs = symbol_glyphs(symbolDir,dX,GlyphHeight)
+    if numGlyphs == 0:
+        print("Please check the input folder. Exiting now ")
+        return 0
+    else:
+        print("Number of  glyphs processed: " + str(numGlyphs))
+    if enableKasheeda == 1:
+        numGlyphs = regular_glyphs(kasheedaDir,dX,GlyphHeight)
+        if numGlyphs == 0:
+            print("Please check the input folder. Exiting now ")
+            return 0
+        else:
+            print("Number of  glyphs processed: " + str(numGlyphs))
         # kasheeda Haroof processing
-        numGlyphs += haroof_glyphs(kasheedaHaroofDir,dX)
-        print("Number of glyphs processed: " + str(numGlyphs))
+        numGlyphs = haroof_glyphs(kasheedaHaroofDir,dX,GlyphHeight)
+        if numGlyphs == 0:
+            print("Please check the input folder. Exiting now ")
+            return 0
+        else:
+            print("Number of  glyphs processed: " + str(numGlyphs))
     if numGlyphs == 0:
         print("Zero glyphs processed. Please check if the images are placed in correct directories.\n")
+        return 0
     else:
         print("All glyphs processed successfully")
     return LookUp
 
-def regular_glyphs(dir,dX):
+def regular_glyphs(dir,dX,GlyphHeight):
      numGlyphs = 0
      idx = 0
      for filepath in glob.iglob(dir + '**/*.png', recursive=True):
@@ -84,8 +106,10 @@ def regular_glyphs(dir,dX):
             return 0
             
         H, W = im.shape
-        if H < minHeight or H > maxHeight:
-            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")
+        if len(GlyphHeight) == 0:
+            GlyphHeight.append(H)
+        if H < minHeight or H > maxHeight or H != GlyphHeight[0]:
+            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels. All images should have the exact same height")
             print("Program exiting now")
             return 0
         numGlyphs += 1
@@ -163,7 +187,7 @@ def regular_glyphs(dir,dX):
         LookUp[filename[0:-4]] = extents
      return numGlyphs
 
-def haroof_glyphs(dir,dX):
+def haroof_glyphs(dir,dX,GlyphHeight):
     numGlyphs = 0
     for filepath in glob.iglob(dir + '**/*.png', recursive=True):
         exceptionFlag = 0
@@ -175,8 +199,8 @@ def haroof_glyphs(dir,dX):
             print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")
             return 0
         H, W = im.shape
-        if H < minHeight or H > maxHeight:
-            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")
+        if H < minHeight or H > maxHeight or H != GlyphHeight[0]:
+            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels. All images should have the exact same height")
             print("Program exiting now")
             return 0
         numGlyphs += 1
@@ -251,7 +275,7 @@ def haroof_glyphs(dir,dX):
         LookUp[filename[0:-4]] = extents
     return numGlyphs
 
-def symbol_glyphs(dir,dX):
+def symbol_glyphs(dir,dX,GlyphHeight):
     numGlyphs = 0
     for filepath in glob.iglob(dir + '**/*.png', recursive=True):
         filename = os.path.basename(filepath)
@@ -262,8 +286,8 @@ def symbol_glyphs(dir,dX):
             print("Unsuccessful in reading image (check if glyph directory is not empty)\n exiting now\n")
             return 0
         H, W = im.shape
-        if H < minHeight or H > maxHeight:
-            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels.")
+        if H < minHeight or H > maxHeight or H != GlyphHeight[0]:
+            print("Image height should be between "+str(minHeight)+" pixels and "+str(maxHeight)+" pixels. All images should have the exact same height")
             print("Program exiting now")
             return 0
         numGlyphs += 1

@@ -4,9 +4,9 @@ import os
 nCols = 10
 nRows = 10
 
-shifts = [100, 100, 175, 175, 175, 200, 200, 200, 200, 200]
-left_threshold = [100, 100, 100, 100, 100, 100, 50, 50, 50, 100]
-right_threshold = [200, 200, 200, 200, 200, 200, 200, 200, 150, 100]
+shifts = []
+left_threshold = []
+right_threshold = []
 HeighAdjustment = [0,-200,-100,-100,-50,-20,-20,0,0,-50]; # should always be non-positive
 weights = [0.8,0.15,0.05] #must sum up to 1.0
 exceptions = {} #needs to be populated first before calling form_groups_from_tables function
@@ -136,16 +136,23 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
                 indL[j+1,k] = a[0]
     for k  in range(0,nCols):
         indL[nRows,k] = len(LMaster[k])
+        for j in range(nRows-1,1,-1):
+            if indL[j,k] == -2: 
+                indL[j,k] = indL[j+1,k]
+                indL[j+1,k] = -2
         indL[0,k] = 0
 
     for j in range(0,nRows-1):
         for k in range(0,nCols):
             a  = np.argwhere(RMaster[k][:,1] < thresh[j,k]) 
             if a.any():
-                indR[j+1,k] = a[0]
+                indR[j,k] = a[0]
     for k  in range(0,nCols):
         indR[nRows,k] = len(RMaster[k])
-        indR[0,k] = 0
+        for j in range(nRows-1,1,-1):
+            if indR[j,k] == -2: 
+                indR[j,k] = indR[j+1,k]
+                indR[j+1,k] = -2
 
     LeftGroups = {}
     RightGroups = {}

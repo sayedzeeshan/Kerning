@@ -3,7 +3,7 @@ import pathlib
 import source.groups as gp
 import source.heights as ht
 import re
-kasheeda = -1
+kasheeda = []
 initialized = 0
 base_dir = []
 shft = []
@@ -35,9 +35,9 @@ def parse_settings_file(file_path):
                         if count == 1:
                             count += 1
                             if(split[1] == 'REGULAR'):
-                                kasheeda = 0
+                                kasheeda.append(0)
                             elif(split[1] == 'KASHEEDA'):
-                                kasheeda = 1
+                                kasheeda.append(1)
                         else:
                             print("parse error, settings.font file is in incorrect format")
                             return 0
