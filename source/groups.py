@@ -207,7 +207,7 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
                 if(count >= 1 and indL[i+1,j] > 0 and indL[i,j] != -2):
                     for t in range(0,count):
                         fn = 'kernblank'+str((j+1)*100 +i+1)+'_'+str(t+1)
-                        file.write('\rDEF_LOOKUP "'+fn+'"  PROCESS_BASE PROCESS_MARKS ALL DIRECTION RTL')
+                        file.write('\rDEF_LOOKUP "'+fn+'"  PROCESS_BASE SKIP_MARKS ALL DIRECTION RTL')
                         file.write('\rIN_CONTEXT')
                         arg1 = '"right'+str(TT[t])+'"'
                         file.write('\r LEFT GROUP '+arg1)

@@ -4,3 +4,4 @@ test/obj/*
 release
 source/obj
 *.pkl
+*.bak
