@@ -248,6 +248,13 @@ def haroof_glyphs(dir,dX,GlyphHeight):
             else:
                 hmax = start_h[k]
 
+        hmax = start_h[nW-1]
+        for k in range(nW,nbinsTemp):
+            if(hmax - (k-nW)*DESC_RATE < 0):
+                start_h[k] = 0
+            else:
+                start_h[k] = int(hmax - (k-nW)*DESC_RATE)
+
         if nW < SHORT_GLYPH_BOUNDARY:
             if exceptionFlag:
                 rate = ASC_RATE_EXCEPTION
