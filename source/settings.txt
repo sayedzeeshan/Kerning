@@ -2,9 +2,9 @@
 # edit this files for directory and kerning control
 #any test after # is ignored
 
-GLYPH_DIR_LOC C:/TestKerning #path to ligature directory
+GLYPH_DIR_LOC C:/Ligatures_JNN #path to ligature directory
 
-FONT_TYPE KASHEEDA #options: KASHEEDA REGULAR 
+FONT_TYPE REGULAR #options: KASHEEDA REGULAR 
 
 HORIZONTAL_SHIFTS [100, 175,200,200,200,200,200,200,200,200] # amount of shifts in units for each horizontal bin
 
@@ -21,12 +21,12 @@ EXCEPTION_STRING r # could be ending string or complete glyph name
 EXCEPTION_PROFILE [4000,4000,4000,1500,1800,2000,2500,4000,4000,4000] 
 #define a height profile at different shift values, at which the glyph specified 
 #by search string (above) will have to be shorter
-EXCEPTION_ADJUSTMENT [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550] 
+EXCEPTION_ADJUSTMENT [-100,-100,-100,-250,-250,-250,-350,-350,-350,-350] 
 #once a glyph(s) match the EXCEPTION_STRING and EXCEPTION_PROFILE 
 #criterion this adjustment will be applied to height of the glyph. 
 #The values should be negative to apply more kerning and posistive 
 #if you want to apply less kerning than default. 
 
 EXCEPTION_STRING alef 
-EXCEPTION_PROFILE [4000,4000,4000,1500,1800,2000,2500,4000,4000,4000] 
-EXCEPTION_ADJUSTMENT [-100,-100,-100,-350,-350,-350,-550,-550,-550,-550] 
+EXCEPTION_PROFILE [4000,4000,4000,4000,4000,4000,4000,4000,4000,4000] 
+EXCEPTION_ADJUSTMENT [0,0,-100,-350,-350,-350,-550,-550,-550,-550] 

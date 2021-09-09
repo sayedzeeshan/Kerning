@@ -7,9 +7,11 @@ nRows = 10
 shifts = []
 left_threshold = []
 right_threshold = []
-HeighAdjustment = [0,-200,-100,-100,-50,-20,-20,0,0,-50]; # should always be non-positive
-weights = [0.8,0.15,0.05] #must sum up to 1.0
+HeighAdjustment = np.ones(shape=(10,),dtype=int)*-15; # should always be non-positive
+HeighAdjustment[0] = 0
+weights = [0.6,0.25,0.15] #must sum up to 1.0
 exceptions = {} #needs to be populated first before calling form_groups_from_tables function
+
 def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList,RCollisionList,VTGFilePath,VTLFilePath):
     lu_len = len(Lookup)
     #table sorting
@@ -101,9 +103,14 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
         TLst = np.zeros(shape=(L0,3),dtype=int)
         for i in range(0,L0):
             TLst[i,0] = RTable[j][i]
-            TLst[i,1] = RHeightsData[RTable[j][i],j+1]*weights[0] + \
-            RHeightsData[RTable[j][i],3]*weights[1] + \
-            RHeightsData[RTable[j][i],4]*weights[2]
+            if j == 0:
+                TLst[i,1] = RHeightsData[RTable[j][i],j+1]*0.4 + \
+                RHeightsData[RTable[j][i],j+2]*0.6 
+            else:
+                TLst[i,1] = RHeightsData[RTable[j][i],j+1]*weights[0]*0.5+ \
+                     RHeightsData[RTable[j][i],j+2]*weights[0]*0.5 + \
+                RHeightsData[RTable[j][i],3]*weights[1]+ \
+                RHeightsData[RTable[j][i],4]*weights[2] 
             TLst[i,2] = RHeightsData[RTable[j][i],j+2]
         RMaster[j]=np.flipud(TLst[TLst[:,1].argsort(),])
 
@@ -111,7 +118,7 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
     for j in range(0,nCols):
         if RMaster[j][:,1].any():
             cushion[j] =  np.mean(RMaster[j][:,1] - np.mean(RMaster[j][:,2]))
-
+    cushion[0:1] = 0
     #height thresholds to form vertical groups
     thresh = np.zeros(shape=(nRows,nCols),dtype=int)
     dT = 0
@@ -144,7 +151,7 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
 
     for j in range(0,nRows-1):
         for k in range(0,nCols):
-            a  = np.argwhere(RMaster[k][:,1] < thresh[j,k]) 
+            a  = np.argwhere(RMaster[k][:,1] + 0.5*cushion[j] < thresh[j,k]) 
             if a.any():
                 indR[j,k] = a[0]
     for k  in range(0,nCols):

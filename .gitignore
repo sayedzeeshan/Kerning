@@ -5,3 +5,4 @@ release
 source/obj
 *.pkl
 *.bak
+test/test_modules.py

@@ -8,15 +8,17 @@ import time
 
 
 def haroof_test():
-    numGlyphs = cgh.haroof_glyphs("C:/Ligatures_JNN/Haroof_Regular/",10,770)
-    assert numGlyphs == 46
+    GlyphHeight  = []
+    GlyphHeight.append(1159)
+    numGlyphs = cgh.haroof_glyphs("C:/TestKerning/Haroof_Regular/",10,GlyphHeight)
+    #assert numGlyphs == 46
 def all_glyphs_test():
-    LookUp = cgh.calc_glyph_heights("C:/Ligaturess",10,0)
+    LookUp = cgh.calc_glyph_heights("C:/TestKerning",10,0)
     slo.save_obj(LookUp,'GlyphHeightsDictionary')
 def plot_test():
     LookUp = slo.load_obj('GlyphHeightsDictionary')
-    cgh.plot_glyph_data(LookUp,"C:/Ligatures/Ligatures_Regular/flsvin.png","flsvin")
-    cgh.plot_glyph_data(LookUp,"C:/Ligatures/Haroof_Regular/reh.png","reh")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Ligatures_Regular/mr.png","mr")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/gr.png","gr")
 def test_collisions():
     start_time = time.time()
     LookUp = slo.load_obj('GlyphHeightsDictionary')
