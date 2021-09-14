@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
   name = 'ligature_kerning',
   packages = find_packages(),
-  version = '0.0.4',
+  version = '0.0.5',
   license='MIT',
   description = 'Nasteeq ligatures kerning for OpenType (TruType) Fonts',
   author = 'Sayed Zeeshan Asghar',

@@ -1,6 +1,6 @@
 launch.json
 test/test_bench.py
-test/obj/*
+test/obj/**
 release
 source/obj
 *.pkl
