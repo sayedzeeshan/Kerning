@@ -311,7 +311,7 @@ def symbol_glyphs(dir,dX,GlyphHeight):
         ending = np.ones((H,nW),dtype=np.int8) #top 
         start_h = SYMBOL_BOTTOM_DEFAULT*np.ones((nbinsTemp,),dtype=int)
         extents = np.zeros((nBins,2),dtype=int)
-        end_h = SYMBOL_TOP_DEFAULT*np.ones((nbinsTemp,),dtype=int)
+        end_h = int(0.6*GlyphHeight*np.ones((nbinsTemp,),dtype=int))
 
         for j in range(0,nW):
             for i in range(0,nPixelScan):

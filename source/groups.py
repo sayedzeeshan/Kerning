@@ -176,8 +176,9 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
                     file.write(' ENUM ')
                     for k in range(st,en):
                         name = remove_numbers(Keys[LMaster[j][k,0]])
-                        file.write('GLYPH "'+name+'" ')
-                        LeftGroups[(i,j)].append(name)
+                        if "Copy" not in name:
+                            file.write('GLYPH "'+name+'" ')
+                            LeftGroups[(i,j)].append(name)
                     file.write('END_ENUM\r')
                     file.write('END_GROUP\r')
     for j in range(0,nCols):
@@ -194,8 +195,9 @@ def form_groups_from_tables(Keys,Lookup,LHeightsData,RHeightsData,LCollisionList
                             en = indR[nRows,j] - 1
                         for k in range(st,en):
                             name = remove_numbers(Keys[RMaster[j][k,0]])
-                            file.write('GLYPH "'+name+'" ')
-                            RightGroups[(i,j)].append(name)
+                            if "Copy" not in name:
+                                file.write('GLYPH "'+name+'" ')
+                                RightGroups[(i,j)].append(name)
                         file.write('END_ENUM\r')
                         file.write('END_GROUP\r')
     file.write('END\r')

@@ -17,8 +17,20 @@ def all_glyphs_test():
     slo.save_obj(LookUp,'GlyphHeightsDictionary')
 def plot_test():
     LookUp = slo.load_obj('GlyphHeightsDictionary')
-    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Ligatures_Regular/mr.png","mr")
-    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/gr.png","gr")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/dochashmihay.png","dochashmihay")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/goalhay.png","goalhay")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/gooltay.png","gooltay")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/hamzaold.png","hamzaold")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/ray.png","ray")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/vao.png","vao")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/yay.png","yay")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/zal.png","zal")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/zay.png","zay")
+    cgh.plot_glyph_data(LookUp,"C:/TestKerning/Haroof_Regular/hamzavao.png","hamzavao")
+
+
+
+
 def test_collisions():
     start_time = time.time()
     LookUp = slo.load_obj('GlyphHeightsDictionary')
