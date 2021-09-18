@@ -69,7 +69,7 @@ def calc_glyph_heights(baseDir,dX,enableKasheeda):
         return 0
     else:
         print("Number of  glyphs processed: " + str(numGlyphs))
-    if enableKasheeda == 1:
+    if enableKasheeda[0] == 1:
         numGlyphs = regular_glyphs(kasheedaDir,dX,GlyphHeight)
         if numGlyphs == 0:
             print("Please check the input folder. Exiting now ")
